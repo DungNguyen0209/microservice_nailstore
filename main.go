@@ -3,27 +3,27 @@ package main
 import (
 	"log"
 
-	"github.com/minhdung/nailstore/internal/controller"
+	api "github.com/minhdung/nailstore/internal/api"
 	db "github.com/minhdung/nailstore/internal/infrastructure/db"
 	"github.com/minhdung/nailstore/internal/infrastructure/repositories"
 	"github.com/minhdung/nailstore/internal/usecase"
-)
-
-const (
-	dbSource      = "root:020920@tcp(localhost:3306)/nailstore?charset=utf8mb4&parseTime=True&loc=Local"
-	serverAddress = "0.0.0.0:8080"
+	"github.com/minhdung/nailstore/internal/util"
 )
 
 func main() {
-	conn, err := db.InitDB(dbSource)
+	config, err := util.LoadConfig(".")
+	if err != nil {
+		log.Fatal("cannot load config")
+	}
+	conn, err := db.InitDB(config.DbSource)
 	if err != nil {
 		log.Fatal("can not donnect to db:", err)
 	}
 	userRepo := repositories.NewUserRepository(conn)
 	userUsecase := usecase.NewUserUsecaseImpl(userRepo)
-	accountController := controller.NewAccountController(userUsecase)
-	server := controller.NewServer(accountController)
-	err = server.Start(serverAddress)
+	accountController := api.NewAccountController(userUsecase)
+	server := api.NewServer(accountController)
+	err = server.Start(config.ServerAddress)
 	if err != nil {
 		log.Fatal("can not start a server:", err)
 	}
