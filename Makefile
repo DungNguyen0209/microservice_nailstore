@@ -2,8 +2,14 @@ DB_URL=mysql://root:020920@tcp(localhost:3306)/nailstore
 
 history:
 	 history | grep "docker run"
-postgres:
-	 docker run --name postgres15 -e POSTGRES_USER=root -e POSTGRES_PASSWORD=secret -p 5432:5432 -d postgres:15-alpine
+mysql:
+	 	docker run --name Mysql \
+	  -e MYSQL_ROOT_PASSWORD=020920 \
+	  -e MYSQL_USER=naildatabase \
+	  -e MYSQL_PASSWORD=020920 \
+	  -p 3306:3306 \
+	  -d mysql:latest
+  
 createdb:
 	 docker exec -it Mysql mysql -uroot -p020920 -e "CREATE DATABASE nailstore;"
 createmigratefile:

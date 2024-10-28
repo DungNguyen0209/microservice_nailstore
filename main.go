@@ -8,6 +8,7 @@ import (
 	"github.com/minhdung/nailstore/internal/infrastructure/repositories"
 	"github.com/minhdung/nailstore/internal/usecase"
 	"github.com/minhdung/nailstore/internal/util"
+	"gorm.io/gorm"
 )
 
 func main() {
@@ -19,12 +20,17 @@ func main() {
 	if err != nil {
 		log.Fatal("can not donnect to db:", err)
 	}
-	userRepo := repositories.NewUserRepository(conn)
-	userUsecase := usecase.NewUserUsecaseImpl(userRepo)
-	accountController := api.NewAccountController(userUsecase)
+	accountController := CreateAccountController(conn)
 	server := api.NewServer(accountController)
 	err = server.Start(config.ServerAddress)
 	if err != nil {
 		log.Fatal("can not start a server:", err)
 	}
+}
+
+func CreateAccountController(conn *gorm.DB) *api.AccountController {
+	userRepo := repositories.NewUserRepository(conn)
+	userUsecase := usecase.NewUserUsecaseImpl(userRepo)
+	accountController := api.NewAccountController(userUsecase)
+	return accountController
 }
