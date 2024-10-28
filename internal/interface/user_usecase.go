@@ -1,4 +1,4 @@
-package usecases
+package interfaceObject
 
 import (
 	"github.com/google/uuid"

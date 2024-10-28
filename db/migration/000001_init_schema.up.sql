@@ -12,10 +12,22 @@ CREATE TABLE `users` (
   `updated_by` VARCHAR(36)                              -- Updated by UUID
 );
 
+CREATE TABLE "sessions" (
+  "id" VARCHAR(36) NOT NULL PRIMARY KEY,
+  "user_id" VARCHAR(36) NOT NULL PRIMARY KEY,
+  "refresh_token" VARCHAR(255) NOT NULL,
+  "user_agent" VARCHAR(255) NOT NULL,
+  "client_ip" VARCHAR(255) NOT NULL,
+  "is_blocked" boolean NOT NULL DEFAULT false,
+  "expired_at" TIMESTAMP DEFAULT CURRENT_TIMESTAMP,  
+  "created_at" TIMESTAMP DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP
+);
+
 -- Indexes
 CREATE INDEX idx_username ON `users` (`username`);
 CREATE INDEX idx_id ON `users` (`id`);
 
 -- Additional Comments or Constraints (optional)
+ALTER TABLE "sessions" ADD FOREIGN KEY ("user_id") REFERENCES "users" ("id");
 ALTER TABLE `users`
     MODIFY `password` VARCHAR(255) COMMENT 'Encrypted user password';

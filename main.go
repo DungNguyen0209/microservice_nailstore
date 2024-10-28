@@ -6,7 +6,7 @@ import (
 	api "github.com/minhdung/nailstore/internal/api"
 	db "github.com/minhdung/nailstore/internal/infrastructure/db"
 	"github.com/minhdung/nailstore/internal/infrastructure/repositories"
-	"github.com/minhdung/nailstore/internal/usecase"
+	usecase "github.com/minhdung/nailstore/internal/usecase/user"
 	"github.com/minhdung/nailstore/internal/util"
 	"gorm.io/gorm"
 )
@@ -21,7 +21,10 @@ func main() {
 		log.Fatal("can not donnect to db:", err)
 	}
 	accountController := CreateAccountController(conn)
-	server := api.NewServer(accountController)
+	server, nil := api.NewServer(config, accountController)
+	if err != nil {
+		log.Fatal("can not create a server:", err)
+	}
 	err = server.Start(config.ServerAddress)
 	if err != nil {
 		log.Fatal("can not start a server:", err)

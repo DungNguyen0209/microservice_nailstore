@@ -4,7 +4,7 @@ package repositories
 import (
 	"github.com/google/uuid"
 	"github.com/minhdung/nailstore/internal/domain/entity"
-	"github.com/minhdung/nailstore/internal/interface/repositories"
+	interfaceObject "github.com/minhdung/nailstore/internal/interface"
 	"gorm.io/gorm"
 )
 
@@ -13,7 +13,7 @@ type userRepository struct {
 }
 
 // NewUserRepository creates a new instance of UserRepository
-func NewUserRepository(db *gorm.DB) repositories.UserRepository {
+func NewUserRepository(db *gorm.DB) interfaceObject.UserRepository {
 	return &userRepository{db}
 }
 

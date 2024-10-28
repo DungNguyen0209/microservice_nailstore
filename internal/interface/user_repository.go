@@ -1,4 +1,4 @@
-package repositories
+package interfaceObject
 
 import (
 	"github.com/google/uuid"

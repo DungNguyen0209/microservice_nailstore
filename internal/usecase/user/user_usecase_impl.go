@@ -8,16 +8,15 @@ import (
 	"github.com/minhdung/nailstore/internal/domain/entity"
 	et "github.com/minhdung/nailstore/internal/domain/entity"
 	"github.com/minhdung/nailstore/internal/domain/request"
-	"github.com/minhdung/nailstore/internal/interface/repositories"
-	"github.com/minhdung/nailstore/internal/interface/usecases"
+	interfaceObject "github.com/minhdung/nailstore/internal/interface"
 )
 
 type userUsecaseImpl struct {
-	UserRepository repositories.UserRepository
+	UserRepository interfaceObject.UserRepository
 }
 
 // NewUserUsecaseImpl creates a new instance of UserUsecase with the provided repository
-func NewUserUsecaseImpl(userRepo repositories.UserRepository) usecases.UserUsecase {
+func NewUserUsecaseImpl(userRepo interfaceObject.UserRepository) interfaceObject.UserUsecase {
 	return &userUsecaseImpl{
 		UserRepository: userRepo,
 	}
