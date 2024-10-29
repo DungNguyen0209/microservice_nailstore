@@ -12,9 +12,19 @@ type userRepository struct {
 	db *gorm.DB
 }
 
+// FindUserByName implements interfaceObject.UserRepository.
+
 // NewUserRepository creates a new instance of UserRepository
 func NewUserRepository(db *gorm.DB) interfaceObject.UserRepository {
 	return &userRepository{db}
+}
+
+func (r *userRepository) FindUserByName(name string) (*entity.User, error) {
+	var user entity.User
+	if err := r.db.First(&user, "username = ?", name).Error; err != nil {
+		return nil, err
+	}
+	return &user, nil
 }
 
 func (r *userRepository) CreateUser(user *entity.User) error {

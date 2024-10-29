@@ -9,4 +9,5 @@ import (
 type UserRepository interface {
 	CreateUser(user *entity.User) error
 	FindUserById(id uuid.UUID) (*entity.User, error)
+	FindUserByName(name string) (*entity.User, error)
 }
